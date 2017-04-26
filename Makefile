@@ -2,7 +2,7 @@ BUILD = build
 BOOKNAME = my-book
 TITLE = title.txt
 METADATA = metadata.xml
-CHAPTERS = ch01.md ch02.md
+CHAPTERS = ch01.md ch02.md ch03.md
 TOC = --toc --toc-depth=2
 COVER_IMAGE = images/cover.jpg
 LATEX_CLASS = report
@@ -30,6 +30,11 @@ $(BUILD)/html/$(BOOKNAME).html: $(CHAPTERS)
 
 $(BUILD)/pdf/$(BOOKNAME).pdf: $(TITLE) $(CHAPTERS)
 	mkdir -p $(BUILD)/pdf
-	pandoc $(TOC) --latex-engine=xelatex -V documentclass=$(LATEX_CLASS) -o $@ $^
+	pandoc \
+		$(TOC) \
+		--template common/pdf-template.tex \
+		--latex-engine=xelatex \
+		-V documentclass=$(LATEX_CLASS) \
+		-o $@ $^
 
 .PHONY: all book clean epub html pdf
